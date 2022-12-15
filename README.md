@@ -1,7 +1,7 @@
 # K8s Playground on kind
 
-[![yamllint](https://github.com/YunosukeY/k8s-playground/actions/workflows/yamllint.yaml/badge.svg?branch=master&event=push)](https://github.com/YunosukeY/k8s-playground/actions/workflows/yamllint.yaml)
-[![golangci-lint](https://github.com/YunosukeY/k8s-playground-on-kind/actions/workflows/golangci-lint.yml/badge.svg?branch=master&event=push)](https://github.com/YunosukeY/k8s-playground-on-kind/actions/workflows/golangci-lint.yml)
+[![yamllint](https://github.com/YunosukeY/k8s-monitoring-playground/actions/workflows/yamllint.yaml/badge.svg?branch=master&event=push)](https://github.com/YunosukeY/k8s-monitoring-playground/actions/workflows/yamllint.yaml)
+[![golangci-lint](https://github.com/YunosukeY/k8s-monitoring-playground/actions/workflows/golangci-lint.yml/badge.svg?branch=master&event=push)](https://github.com/YunosukeY/k8s-monitoring-playground/actions/workflows/golangci-lint.yml)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
 
 ## Usage
