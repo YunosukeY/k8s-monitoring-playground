@@ -20,16 +20,6 @@ cat <<EOF > .env.dockerhub
 DOCKER_USERNAME={DOCKERHUB_USERNAME}
 DOCKER_PASSWORD={DOCKERHUB_PASSWORD}
 EOF
-
-cat <<EOF > k8s/app/.env
-MYSQL_ROOT_PASSWORD={ROOT_PASSWORD}
-MYSQL_DATABASE={DATABASE_NAME}
-MYSQL_USER={USER_NAME}
-MYSQL_PASSWORD={PASSWORD}
-REDIS_PASSWORD={PASSWORD}
-mysql-root-password={USER_NAME}
-mysql-password={PASSWORD}
-EOF
 ```
 
 Also you need to push a image (/backend/Dockerfile) to a specific DockerHub private repository.
