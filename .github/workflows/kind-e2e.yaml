@@ -1,0 +1,36 @@
+name: kind e2e
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+      - "k8s/**"
+      - "kind/**"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+      - "k8s/**"
+      - "kind/**"
+jobs:
+  kind:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: aquaproj/aqua-installer@v1.1.2
+        with:
+          aqua_version: v1.25.0
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.19.x'
+      - run: helm plugin install https://github.com/databus23/helm-diff
+      - env:
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          cat <<EOF > .env.dockerhub
+          DOCKER_USERNAME=kimitsu
+          DOCKER_PASSWORD=$DOCKERHUB_PASSWORD
+          EOF
+          ./kind/e2e.sh run
