@@ -11,4 +11,6 @@
 
   labels: ["dependencies"],
   automerge: false,
+
+  reviewers: ["YunosukeY"],
 }
