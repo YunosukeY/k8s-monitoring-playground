@@ -26,8 +26,6 @@ create () {
 deploy () {
   helmfile apply -f "${repo_dir}/k8s/charts" -e $1
   kubectl wait --for condition=available deployment/ingress-nginx-controller --namespace=ingress --timeout=300s
-  kubectl wait --for condition=available deployment/mailhog --namespace=app --timeout=300s
-  kubectl wait --for=condition=Ready pod/kafka-0 --namespace=app --timeout=300s
 
   # deploy app
   kubectl apply -k "${repo_dir}/k8s/app"

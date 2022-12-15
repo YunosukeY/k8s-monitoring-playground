@@ -1,10 +1,6 @@
 helmfiles:
   - metrics-server/helmfile.yaml
   - ingress-nginx/helmfile.yaml
-  - redis/helmfile.yaml
-  - kafka/helmfile.yaml
-  - mailhog/helmfile.yaml # for test
-  - mysql/helmfile.yaml
   - jaeger/helmfile.yaml
   - prometheus/helmfile.yaml
 environments:
