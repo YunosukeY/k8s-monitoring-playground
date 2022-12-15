@@ -1,0 +1,16 @@
+---
+secretGenerator:
+  - name: db-secret
+    namespace: app
+    envs:
+      - .env
+configMapGenerator:
+  - name: mysql-initdb-config
+    namespace: app
+    files:
+      - mysql/init/1_create_table.up.sql
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+  - backend.yaml
+  - ingress.yaml

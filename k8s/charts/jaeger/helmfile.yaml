@@ -1,0 +1,13 @@
+repositories:
+  - name: jaegertracing
+    url: https://jaegertracing.github.io/helm-charts
+releases:
+  - name: jaeger
+    namespace: monitor
+    chart: jaegertracing/jaeger
+    version: 0.65.3
+    values:
+      - values.yaml
+environments:
+  dev: {}
+  ci: {}

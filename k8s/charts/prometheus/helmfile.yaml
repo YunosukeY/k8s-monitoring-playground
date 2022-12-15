@@ -1,0 +1,13 @@
+repositories:
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+releases:
+  - name: prometheus
+    namespace: monitor
+    chart: prometheus-community/prometheus
+    version: 19.0.1
+    values:
+      - values.yaml
+environments:
+  dev: {}
+  ci: {}

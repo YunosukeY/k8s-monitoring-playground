@@ -1,0 +1,31 @@
+controller:
+  hostPort:
+    enabled: true
+  service:
+    type: NodePort
+  labels:
+    allowHostPort: "true"
+    allowPrivilegeEscalation: "true"
+    allowBaselineLevelSeccompTypes: "true"
+    allowRunAsRoot: "true"
+  admissionWebhooks:
+    patch:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+    createSecretJob:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+    patchWebhookJob:
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true

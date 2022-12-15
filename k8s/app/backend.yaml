@@ -1,0 +1,292 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: app
+  name: app
+  labels:
+    app: app
+spec:
+  ports:
+    - name: peculiar
+      port: 80
+      targetPort: 8080
+    - name: common
+      port: 8888
+  selector:
+    app: app
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: app
+  name: app-deployment
+  labels:
+    app: app
+spec:
+  selector:
+    matchLabels:
+      app: app
+      tier: backend
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: app
+        tier: backend
+    spec:
+      containers:
+        - image: kimitsu/kind-backend@sha256:9cc21d969783bf94d1304696d245d4417635c60dbce09bdbb2574f26d020076f
+          name: app
+          env:
+            - name: MYSQL_DB_HOST
+              value: "mysql"
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DBARGS
+              value: "charset=utf8&parseTime=True&loc=Local"
+            - name: KAFKA_HOST
+              value: kafka
+            - name: KAFKA_PORT
+              value: "9092"
+            - name: JAEGER_HOST
+              value: jaeger-collector.monitor.svc.cluster.local
+          ports:
+            - containerPort: 8080
+              name: app
+          command: ["main", "app"]
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532 # nonroot
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: registry-key
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: app
+  name: auth
+  labels:
+    app: auth
+spec:
+  ports:
+    - name: peculiar
+      port: 80
+      targetPort: 8080
+    - name: common
+      port: 8888
+  selector:
+    app: auth
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: app
+  name: auth-deployment
+  labels:
+    app: auth
+spec:
+  selector:
+    matchLabels:
+      app: auth
+      tier: backend
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: auth
+        tier: backend
+    spec:
+      containers:
+        - image: kimitsu/kind-backend@sha256:9cc21d969783bf94d1304696d245d4417635c60dbce09bdbb2574f26d020076f
+          name: auth
+          env:
+            - name: REDIS_HOST
+              value: redis-master
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: REDIS_PASSWORD
+            - name: JAEGER_HOST
+              value: jaeger-collector.monitor.svc.cluster.local
+          ports:
+            - containerPort: 8080
+              name: auth
+          command: ["main", "auth"]
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532 # nonroot
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: registry-key
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: app
+  name: mail
+  labels:
+    app: mail
+spec:
+  ports:
+    - name: common
+      port: 8888
+  selector:
+    app: mail
+    tier: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: app
+  name: mail-deployment
+  labels:
+    app: mail
+spec:
+  selector:
+    matchLabels:
+      app: mail
+      tier: backend
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: mail
+        tier: backend
+    spec:
+      containers:
+        - image: kimitsu/kind-backend@sha256:9cc21d969783bf94d1304696d245d4417635c60dbce09bdbb2574f26d020076f
+          name: mail
+          env:
+            - name: KAFKA_HOST
+              value: kafka
+            - name: KAFKA_PORT
+              value: "9092"
+            - name: MAIL_HOST
+              value: mailhog
+            - name: MAIL_PORT
+              value: "1025"
+            - name: JAEGER_HOST
+              value: jaeger-collector.monitor.svc.cluster.local
+          command: ["main", "mail"]
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8888
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532 # nonroot
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: registry-key
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault

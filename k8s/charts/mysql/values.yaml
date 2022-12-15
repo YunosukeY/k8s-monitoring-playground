@@ -1,0 +1,41 @@
+commonLabels:
+  app: mysql
+auth:
+  database: sample_db
+  username: user1
+  existingSecret: db-secret
+primary:
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "1500m"
+  extraFlags: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+  extraEnvVars:
+    - name: TZ
+      value: "Asia/Tokyo"
+  persistence:
+    size: 1Gi
+  extraVolumes:
+    - name: mysql-initdb
+      configMap:
+        name: mysql-initdb-config
+  extraVolumeMounts:
+    - name: mysql-initdb
+      mountPath: /docker-entrypoint-initdb.d
+  podLabels:
+    app: mysql
+    tier: db
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    runAsNonRoot: true
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault

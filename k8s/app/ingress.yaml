@@ -1,0 +1,106 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monitor
+  namespace: monitor
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /search
+            pathType: Prefix
+            backend:
+              service:
+                name: jaeger-query
+                port:
+                  number: 16686
+          - path: /static
+            pathType: Prefix
+            backend:
+              service:
+                name: jaeger-query
+                port:
+                  number: 16686
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: jaeger-query
+                port:
+                  number: 16686
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: monitor
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /prometheus(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-server
+                port:
+                  number: 9090
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: public
+  namespace: app
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /api/v1/sessions
+            pathType: Prefix
+            backend:
+              service:
+                name: auth
+                port:
+                  number: 80
+          - path: /api/v1/public
+            pathType: Prefix
+            backend:
+              service:
+                name: app
+                port:
+                  number: 80
+          - # for test
+            path: /api/v2/messages
+            pathType: Prefix
+            backend:
+              service:
+                name: mailhog
+                port:
+                  number: 8025
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: private
+  namespace: app
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: http://auth.app.svc.cluster.local/api/v1/sessions
+    nginx.ingress.kubernetes.io/auth-response-headers: x-auth
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /api/v1
+            pathType: Prefix
+            backend:
+              service:
+                name: app
+                port:
+                  number: 80

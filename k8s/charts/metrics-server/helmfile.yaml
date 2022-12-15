@@ -1,0 +1,17 @@
+repositories:
+  - name: metrics-server
+    url: https://kubernetes-sigs.github.io/metrics-server
+releases:
+  - name: metrics-server
+    namespace: kube-system
+    chart: metrics-server/metrics-server
+    version: 3.8.3
+    values:
+      - ./values.yaml.gotmpl
+environments:
+  dev:
+    values:
+      - environments/dev.yaml
+  ci:
+    values:
+      - environments/ci.yaml

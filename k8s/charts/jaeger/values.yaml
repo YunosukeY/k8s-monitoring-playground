@@ -1,0 +1,15 @@
+provisionDataStore:
+  cassandra: false
+allInOne:
+  enabled: true
+  podLabels:
+    allowPrivilegeEscalation: "true"
+    allowRunAsRoot: "true"
+    allowBaselineLevelSeccompTypes: "true"
+    allowBaselineLevelCapabilities: "true"
+agent:
+  enabled: false
+collector:
+  enabled: false
+query:
+  enabled: false

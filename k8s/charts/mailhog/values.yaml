@@ -1,0 +1,7 @@
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault
+containerSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
