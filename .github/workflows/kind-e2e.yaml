@@ -3,17 +3,17 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - "backend/**"
-    #   - "k8s/**"
-    #   - "kind/**"
+    paths:
+      - "backend/**"
+      - "k8s/**"
+      - "kind/**"
   pull_request:
     branches:
       - master
-    # paths:
-    #   - "backend/**"
-    #   - "k8s/**"
-    #   - "kind/**"
+    paths:
+      - "backend/**"
+      - "k8s/**"
+      - "kind/**"
 jobs:
   kind:
     runs-on: ubuntu-22.04
