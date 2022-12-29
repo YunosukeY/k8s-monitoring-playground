@@ -11,6 +11,16 @@
 
   labels: ["dependencies"],
   automerge: false,
+  packageRules: [
+    {
+      matchPackageNames: [
+        "aquaproj/aqua-registry",
+        "aquaproj/aqua",
+        "aquaproj/aqua-installer",
+      ],
+      automerge: true,
+    },
+  ],
 
   reviewers: ["YunosukeY"],
 }
