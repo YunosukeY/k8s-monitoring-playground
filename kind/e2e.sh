@@ -41,6 +41,8 @@ run () {
 if [ "$command" == "create" ]; then
   create
   deploy dev
+  run
+  open http://localhost:3000
 elif [ "$command" == "run" ]; then
   create
   deploy ci
