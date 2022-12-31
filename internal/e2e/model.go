@@ -33,3 +33,16 @@ type Message struct {
 type Messages struct {
 	Items []Message `json:"items"`
 }
+
+type Span struct {
+	SpanID string `json:"spanID"`
+}
+
+type Trace struct {
+	TraceID string `json:"traceID"`
+	Spans   []Span `json:"spans"`
+}
+
+type Traces struct {
+	Data []Trace `json:"data"`
+}

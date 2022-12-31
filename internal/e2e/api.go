@@ -27,11 +27,28 @@ func NewGetAPI[R any](path string) getAPI[R] {
 	return getAPI[R]{url}
 }
 
+func NewGetAPIWithUser[R any](username string, password string, host string, path string) getAPI[R] {
+	u := url.URL{}
+	u.Scheme = "http"
+	u.User = url.UserPassword(username, password)
+	u.Host = host
+	u.Path = path
+	return getAPI[R]{url: u}
+}
+
 func (api getAPI[R]) getURL() string {
 	return api.url.String()
 }
 
 func (api getAPI[R]) Request() (*R, error) {
+	return api.RequestWithParam("")
+}
+
+func (api getAPI[R]) RequestWithParam(query string) (*R, error) {
+	api.url.RawQuery = query
+	defer func() {
+		api.url.RawQuery = ""
+	}()
 	resp, err := client.Get(api.getURL())
 	if err != nil {
 		return nil, err
