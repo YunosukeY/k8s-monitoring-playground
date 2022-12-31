@@ -10,8 +10,6 @@ import (
 	"net/url"
 )
 
-const host = "http://localhost"
-
 var jar, _ = cookiejar.New(nil)
 var client = &http.Client{Jar: jar}
 
@@ -36,10 +34,6 @@ func NewGetAPIWithUser[R any](username string, password string, host string, pat
 	return getAPI[R]{url: u}
 }
 
-func (api getAPI[R]) getURL() string {
-	return api.url.String()
-}
-
 func (api getAPI[R]) Request() (*R, error) {
 	return api.RequestWithParam("")
 }
@@ -49,7 +43,7 @@ func (api getAPI[R]) RequestWithParam(query string) (*R, error) {
 	defer func() {
 		api.url.RawQuery = ""
 	}()
-	resp, err := client.Get(api.getURL())
+	resp, err := client.Get(api.url.String())
 	if err != nil {
 		return nil, err
 	}
@@ -71,11 +65,16 @@ func (api getAPI[R]) RequestWithParam(query string) (*R, error) {
 }
 
 type postAPI[B any, R any] struct {
-	path string
+	url url.URL
 }
 
-func NewPostAPI[B any, R any](path string) postAPI[B, R] {
-	return postAPI[B, R]{path}
+func NewPostAPIWithUser[B any, R any](username string, password string, host string, path string) postAPI[B, R] {
+	u := url.URL{}
+	u.Scheme = "http"
+	u.User = url.UserPassword(username, password)
+	u.Host = host
+	u.Path = path
+	return postAPI[B, R]{url: u}
 }
 
 func (api postAPI[B, R]) Request(b B) (*R, error) {
@@ -84,7 +83,7 @@ func (api postAPI[B, R]) Request(b B) (*R, error) {
 		return nil, err
 	}
 
-	resp, err := client.Post(host+api.path, "application/json", bytes.NewBuffer(bs))
+	resp, err := client.Post(api.url.String(), "application/json", bytes.NewBuffer(bs))
 	if err != nil {
 		return nil, err
 	}
