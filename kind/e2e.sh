@@ -26,6 +26,7 @@ create () {
 deploy () {
   helmfile apply -f "${repo_dir}/k8s/charts" -e $1
   kubectl wait --for condition=available deployment/ingress-nginx-controller --namespace=ingress --timeout=300s
+  kubectl wait --for condition=available deployment/jaeger deployment/prometheus-server deployment/grafana --namespace=monitor --timeout=300s
 
   # deploy app
   kubectl apply -k "${repo_dir}/k8s/app"
@@ -41,6 +42,8 @@ run () {
 if [ "$command" == "create" ]; then
   create
   deploy dev
+  run
+  open http://localhost:3000
 elif [ "$command" == "run" ]; then
   create
   deploy ci
