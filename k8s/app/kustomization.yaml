@@ -3,3 +3,4 @@ resources:
   - backend.yaml
   - ingress.yaml
   - namespace.yaml
+  - node-port.yaml
