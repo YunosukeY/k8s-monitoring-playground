@@ -34,7 +34,7 @@ deploy () {
 
 run () {
   kubectl wait --for condition=available deployment/app-deployment --namespace=app --timeout=600s
-  cd "${repo_dir}/backend"
+
   go test cmd/e2e/main_test.go
 }
 

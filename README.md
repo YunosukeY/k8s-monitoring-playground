@@ -34,7 +34,6 @@ Also you need to push a image (/backend/Dockerfile) to a specific DockerHub priv
 ### To Run E2E Test
 
 ```sh
-cd backend
 go test cmd/e2e/main.go
 ```
 
