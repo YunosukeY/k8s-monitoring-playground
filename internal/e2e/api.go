@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/cookiejar"
+	"net/url"
 )
 
 const host = "http://localhost"
@@ -15,15 +16,23 @@ var jar, _ = cookiejar.New(nil)
 var client = &http.Client{Jar: jar}
 
 type getAPI[R any] struct {
-	path string
+	url url.URL
 }
 
 func NewGetAPI[R any](path string) getAPI[R] {
-	return getAPI[R]{path}
+	url := url.URL{}
+	url.Scheme = "http"
+	url.Host = "localhost"
+	url.Path = path
+	return getAPI[R]{url}
+}
+
+func (api getAPI[R]) getURL() string {
+	return api.url.String()
 }
 
 func (api getAPI[R]) Request() (*R, error) {
-	resp, err := client.Get(host + api.path)
+	resp, err := client.Get(api.getURL())
 	if err != nil {
 		return nil, err
 	}
