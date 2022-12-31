@@ -3,5 +3,6 @@ helmfiles:
   - ingress-nginx/helmfile.yaml
   - jaeger/helmfile.yaml
   - prometheus/helmfile.yaml
+  - grafana/helmfile.yaml
 environments:
   {{ .Environment.Name }}: {}

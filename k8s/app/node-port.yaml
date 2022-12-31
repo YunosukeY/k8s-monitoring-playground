@@ -28,3 +28,17 @@ spec:
   ports:
     - nodePort: 30090
       port: 9090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: monitor
+  name: grafana-port
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/instance: grafana
+    app.kubernetes.io/name: grafana
+  ports:
+    - nodePort: 30000
+      port: 3000
