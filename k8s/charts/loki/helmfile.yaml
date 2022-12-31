@@ -1,0 +1,14 @@
+repositories:
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+releases:
+  - name: loki
+    namespace: monitor
+    chart: grafana/loki
+    version: 3.8.0
+    disableValidationOnInstall: true
+    values:
+      - values.yaml
+environments:
+  dev: {}
+  ci: {}

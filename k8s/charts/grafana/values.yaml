@@ -12,6 +12,9 @@ datasources:
     - name: Prometheus
       type: prometheus
       url: http://prometheus-server.monitor.svc.cluster.local
+    - name: Loki
+      type: loki
+      url: loki.monitor.svc.cluster.local:3100
 
 grafana.ini:
   users:
