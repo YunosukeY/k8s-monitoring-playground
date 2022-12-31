@@ -1,2 +1,18 @@
 adminUser: admin
 adminPassword: admin
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Jaeger
+      type: jaeger
+      url: jaeger-query.monitor.svc.cluster.local:16686
+      isDefault: true
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.monitor.svc.cluster.local
+
+grafana.ini:
+  users:
+    default_theme: light
