@@ -4,23 +4,16 @@
 
   ignorePresets: [":prHourlyLimit2"],
   branchConcurrentLimit: 0,
+  prHourlyLimit: 0,
+  automerge: true,
+  platformAutomerge: true,
 
   kubernetes: {
-    fileMatch: ["^k8s/app/.+\\.yaml$"],
+    fileMatch: ["^k8s/app/.+\\.yaml$", "^kind/.+\\.yaml$"],
   },
 
   labels: ["dependencies"],
-  automerge: false,
-  packageRules: [
-    {
-      matchPackageNames: [
-        "aquaproj/aqua-registry",
-        "aquaproj/aqua",
-        "aquaproj/aqua-installer",
-      ],
-      automerge: true,
-    },
-  ],
+  automerge: true,
 
   reviewers: ["YunosukeY"],
 }
