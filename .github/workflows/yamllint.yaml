@@ -11,5 +11,13 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - run: |
+      - id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            *.yaml
+            *.yml
+      - if: |
+          steps.changed-files.outputs.any_changed == 'true'
+        run: |
           yamllint -c .yamllint.yaml .
