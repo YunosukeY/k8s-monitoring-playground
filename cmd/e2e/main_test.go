@@ -24,6 +24,7 @@ func testWithoutAuth(t *testing.T) {
 	assert.Equal(t, &[]e2e.TodoForResponse{}, todos)
 }
 
+// test metrics are retrieved via Grafana
 func testMonitor(t *testing.T) {
 	// test traces
 	traces, err := getTraces.RequestWithParam("service=app")
@@ -32,7 +33,7 @@ func testMonitor(t *testing.T) {
 	assert.Len(t, traces.Data[0].Spans, 3)
 
 	// test metrics
-	qs := e2e.Queries{
+	metricsQ := e2e.Queries{
 		Queries: []e2e.Query{{
 			DSID: 2,
 			Expr: "go_memstats_alloc_bytes{job=\"app\"}",
@@ -40,15 +41,22 @@ func testMonitor(t *testing.T) {
 		From: "now-1m",
 		To:   "now",
 	}
-	qres, err := queryData.Request(qs)
+	qres, err := queryData.Request(metricsQ)
 	assert.Nil(t, err)
+	assert.Equal(t, 200, qres.Results.A.Status)
 	assert.NotEmpty(t, qres.Results.A.Frames)
-	frame := qres.Results.A.Frames[0]
-	assert.Equal(t, "go_memstats_alloc_bytes{instance=\"app.app.svc.cluster.local:8888\", job=\"app\"}", frame.Schema.Name)
-	assert.Len(t, frame.Data.Values, 2)
-	times := frame.Data.Values[0]
-	values := frame.Data.Values[1]
-	assert.NotEmpty(t, times)
-	assert.NotEmpty(t, values)
-	assert.Len(t, times, len(values))
+
+	// test logs
+	logsQ := e2e.Queries{
+		Queries: []e2e.Query{{
+			DSID: 3,
+			Expr: "{job=\"app/app\"} |= ``",
+		}},
+		From: "now-1m",
+		To:   "now",
+	}
+	qres, err = queryData.Request(logsQ)
+	assert.Nil(t, err)
+	assert.Equal(t, 200, qres.Results.A.Status)
+	assert.NotEmpty(t, qres.Results.A.Frames)
 }

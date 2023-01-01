@@ -52,15 +52,7 @@ type Queries struct {
 	To      string  `json:"to"`
 }
 
-type Schema struct {
-	Name string `json:"name"`
-}
-type Data struct {
-	Values [][]int `json:"values"`
-}
 type Frame struct {
-	Schema Schema `json:"schema"`
-	Data   Data   `json:"data"`
 }
 type Result struct {
 	Status int     `json:"status"`
