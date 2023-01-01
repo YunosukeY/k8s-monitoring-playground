@@ -14,7 +14,7 @@ var queryData = e2e.NewPostAPIWithUser[e2e.Queries, e2e.QueryResponse]("admin", 
 
 func Test(t *testing.T) {
 	testWithoutAuth(t)
-	time.Sleep(time.Second * 20)
+	time.Sleep(time.Second * 30)
 	testMonitor(t)
 }
 
