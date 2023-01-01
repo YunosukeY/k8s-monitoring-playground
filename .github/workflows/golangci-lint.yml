@@ -14,5 +14,15 @@ jobs:
       - uses: aquaproj/aqua-installer@v2.0.2
         with:
           aqua_version: v1.28.0
-      - run: |
+      - id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            cmd/**
+            internal/**
+            .github/workflows/golangci-lint.yml
+      - if: |
+          steps.changed-files.outputs.any_changed == 'true' ||
+          contains(github.event.pull_request.labels.*.name, 'golangci-lint')
+        run: |
           golangci-lint run --out-format=github-actions

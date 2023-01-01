@@ -13,7 +13,12 @@
   },
 
   labels: ["dependencies"],
-  automerge: true,
+  packageRules: [
+    {
+      matchPackagePatterns: ["golangci-lint"],
+      labels: ["golangci-lint"],
+    },
+  ],
 
   reviewers: ["YunosukeY"],
 }
