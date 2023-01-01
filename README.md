@@ -19,3 +19,7 @@ Traces are measured in OpenTelemetry format, and sent to [Jaeger](https://www.ja
 ### Metrics
 
 Metrics are collected by [Prometheus](https://prometheus.io).
+
+### Logs
+
+Logs are collected by [Promtail](https://grafana.com/docs/loki/latest/clients/promtail), and aggregated by [Loki](https://grafana.com/oss/loki).

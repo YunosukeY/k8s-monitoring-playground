@@ -27,6 +27,7 @@ deploy () {
   helmfile apply -f "${repo_dir}/k8s/charts" -e $1
   kubectl wait --for condition=available deployment/ingress-nginx-controller --namespace=ingress --timeout=300s
   kubectl wait --for condition=available deployment/jaeger deployment/prometheus-server deployment/grafana --namespace=monitor --timeout=300s
+  kubectl wait --for condition=ready pod/loki-0 $(kubectl get po -n monitor -o name | grep promtail) --namespace=monitor --timeout=300s
 
   # deploy app
   kubectl apply -k "${repo_dir}/k8s/app"

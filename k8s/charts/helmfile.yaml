@@ -4,5 +4,7 @@ helmfiles:
   - jaeger/helmfile.yaml
   - prometheus/helmfile.yaml
   - grafana/helmfile.yaml
+  - loki/helmfile.yaml
+  - promtail/helmfile.yaml
 environments:
   {{ .Environment.Name }}: {}
