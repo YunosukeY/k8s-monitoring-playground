@@ -20,5 +20,15 @@
     },
   ],
 
+  hostRules: [
+    {
+      hostType: "docker",
+      username: "kimitsu",
+      encrypted: {
+        password: "wcFMA/xDdHCJBTolAQ//Q/46Iag/LyQKTiYdlct+dO1MGbvzQqkJGgUNrDawypRCtGuFbFZRCQfsg/knfFbhhpt0KbAfQPNBMt0djXl1xOydyajOTfWorqQFDBjUlyfl6cP1Rf20EcMthpo9yCtAvECaLJmcvq5MDb6IJTEaRrdIrzyQHaT5GjGGSDd2d2Chbj/2KcrbuSR4ol+92BpjDVrNvYKPkZMsXx2o24q6++tJAjC2cjhugKa/Cg5fjulBEryxSQw1VzLet2hV1q/b84ESNV1nG/NSSHeTZ9Y29zh6ksjYVIiI6IdbZL5KqkpKYMs25avrDyO9oo2Z1kxFMAdxsw9ka86RT5jr/T4Z4R4BRtYA25p3rHOh85qXsGj8xig6cqrwXgvMTfu8LBuXCupQKfFGTLajOgnH9hSZIIZoAiGxPGx4ZkHwLDVQlPAqV8Ed5bQcxqaXyjHsDNr+9Mkft4cTJ8M+Gu7NVnnTl3tDqOfRaLXSr7SEpOMbYh6gIyf27uXpqJxM38rG9cwnCZFWoMkLr2VWMVxncbo83/h7kB8XgoANGumO9uGV98ix2umMWkNkZ8zIwGzT5vSE0s5IItIA+XTkKoEjNPUXj5vN2UhTLgkiu8avbgPtynzqVgw81MD/WCsSvOBcZHCKC+rvUGh17aX/cBIq1xICYF0s030coM9V98b7kjsvyjjSXgHEoQmu4YkVmLR6rN1e06olegD30no2N5ddmOKrBKQdRJ9Rz1Y1LBxJVakRGeSFZ6RNGAPXAfeB+SQRQa3wKXU1ypEnBUnO2Ca7rQxd5iYcrIDDIPhkKoqS7kCHlcg",
+      },
+    },
+  ],
+
   reviewers: ["YunosukeY"],
 }
