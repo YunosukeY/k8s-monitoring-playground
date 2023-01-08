@@ -38,7 +38,7 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: kimitsu/kind-backend:master@sha256:8bca4d107e76df463ab4120cce3b0e3380d3186512d5ca4dc3cd63f84314c7f7
+        - image: kimitsu/kind-backend:master@sha256:cf44c757cca3f616900187e228b79250755a69a1de173678b30dbb69d913d807
           name: app
           env:
             - name: JAEGER_HOST
