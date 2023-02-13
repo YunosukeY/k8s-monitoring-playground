@@ -30,7 +30,7 @@ func testMonitor(t *testing.T) {
 	traces, err := getTraces.RequestWithParam("service=app")
 	assert.Nil(t, err)
 	assert.NotEmpty(t, traces.Data)
-	assert.Len(t, traces.Data[0].Spans, 3)
+	assert.Len(t, traces.Data[0].Spans, 4)
 
 	// test metrics
 	metricsQ := e2e.Queries{
