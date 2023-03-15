@@ -14,7 +14,7 @@ jobs:
       - uses: aquaproj/aqua-installer@v2.0.2
         with:
           aqua_version: v1.36.0
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
           go-version: '1.19.x'
       - run: helm plugin install https://github.com/databus23/helm-diff
