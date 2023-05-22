@@ -5,7 +5,7 @@ releases:
   - name: loki
     namespace: monitor
     chart: grafana/loki
-    version: 5.5.2
+    version: 5.5.3
     disableValidationOnInstall: true
     values:
       - values.yaml
