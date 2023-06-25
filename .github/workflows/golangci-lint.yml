@@ -15,7 +15,7 @@ jobs:
         with:
           aqua_version: v2.9.0
       - id: changed-files
-        uses: tj-actions/changed-files@v36
+        uses: tj-actions/changed-files@v37
         with:
           files: |
             cmd/**
