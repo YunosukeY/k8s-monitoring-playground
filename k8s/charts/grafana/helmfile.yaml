@@ -5,7 +5,7 @@ releases:
   - name: grafana
     namespace: monitor
     chart: grafana/grafana
-    version: 6.57.4
+    version: 6.58.0
     values:
       - values.yaml
 environments:
