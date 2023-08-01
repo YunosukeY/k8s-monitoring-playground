@@ -5,7 +5,7 @@ releases:
   - name: promtail
     namespace: monitor
     chart: grafana/promtail
-    version: 6.11.9
+    version: 6.13.1
     values:
       - values.yaml
 environments:
