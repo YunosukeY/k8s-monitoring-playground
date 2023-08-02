@@ -5,7 +5,7 @@ releases:
   - name: prometheus
     namespace: monitor
     chart: prometheus-community/prometheus
-    version: 23.1.0
+    version: 23.2.0
     values:
       - values.yaml
 environments:
