@@ -25,4 +25,4 @@ jobs:
           steps.changed-files.outputs.any_changed == 'true' ||
           contains(github.event.pull_request.labels.*.name, 'golangci-lint')
         run: |
-          golangci-lint run --out-format=github-actions
+          golangci-lint run
