@@ -5,7 +5,7 @@ releases:
   - name: jaeger
     namespace: monitor
     chart: jaegertracing/jaeger
-    version: 0.71.18
+    version: 0.72.0
     values:
       - values.yaml
 environments:
