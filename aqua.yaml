@@ -12,5 +12,5 @@ packages:
 - name: golangci/golangci-lint@v1.55.2
 - name: kubernetes/kubectl@v1.28.4
 - name: helm/helm@v3.13.2
-- name: helmfile/helmfile@v0.158.1
+- name: helmfile/helmfile@v0.159.0
 - name: kubernetes-sigs/kind@v0.20.0
